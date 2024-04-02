@@ -1,6 +1,7 @@
 import classes from './EventsNavigation.module.css';
+import React from 'react'
 
-function EventsNavigation() {
+export const EventsNavigation = () => {
   return (
     <header className={classes.header}>
       <nav>
@@ -17,4 +18,3 @@ function EventsNavigation() {
   );
 }
 
-export default EventsNavigation;
