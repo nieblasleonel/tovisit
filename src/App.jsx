@@ -8,12 +8,14 @@ import { RootLayout } from './pages/Root';
 import { ErrorPage } from './pages/Error';
 
 import { HomePage } from './pages/Home';
-import { EventDetailPage, loader as eventDetailLoader } from './pages/EventDetail';
-import { NewEventPage, action as newEventAction } from './pages/NewEvent';
+import { EventDetailPage, loader as eventDetailLoader, action as deleteEventAction } from './pages/EventDetail';
+import { NewEventPage } from './pages/NewEvent';
 import { EditEventPage } from './pages/EditEvent';
 import { EventsRootLayout } from './pages/EventsRoot';
 import { EventsPage } from './pages/Events.jsx';
 import { loader as eventLoader } from './pages/Events';
+import {action as manipulatedEventAction} from './components/EventForm'
+import { NewsletterPage, action as newsletterAction} from './pages/Newsletter';
 
 const router = createBrowserRouter([
   {
@@ -31,11 +33,12 @@ const router = createBrowserRouter([
             id:'event-detail',
             loader: eventDetailLoader, 
             children: [
-              { index: true, element: <EventDetailPage /> },
-              { path: 'edit', element: <EditEventPage /> },
+              { index: true, element: <EventDetailPage />, action: deleteEventAction },
+              { path: 'edit', element: <EditEventPage />, action: manipulatedEventAction},
             ]
           },
-          { path: 'new', element: <NewEventPage />, action: newEventAction },
+          { path: 'new', element: <NewEventPage />, action: manipulatedEventAction },
+          { path: 'newsletter', element: <NewsletterPage />, action: newsletterAction },
         ]
       },
     ]
