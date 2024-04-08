@@ -8,11 +8,12 @@ import { RootLayout } from './pages/Root';
 import { ErrorPage } from './pages/Error';
 
 import { HomePage } from './pages/Home';
-import { EventDetailPage } from './pages/EventDetail';
-import { NewEventPage } from './pages/NewEvent';
+import { EventDetailPage, loader as eventDetailLoader } from './pages/EventDetail';
+import { NewEventPage, action as newEventAction } from './pages/NewEvent';
 import { EditEventPage } from './pages/EditEvent';
 import { EventsRootLayout } from './pages/EventsRoot';
 import { EventsPage } from './pages/Events.jsx';
+import { loader as eventLoader } from './pages/Events';
 
 const router = createBrowserRouter([
   {
@@ -24,25 +25,21 @@ const router = createBrowserRouter([
       {
         path: 'events', element: <EventsRootLayout />,
         children: [
+          { index: true, element: <EventsPage />, loader: eventLoader },
           {
-            index: true, element: <EventsPage />, loader: async() => {
-              const response = await fetch('http://localhost:8080/events');
-              if (!response.ok) {
-                //...
-              } else {
-                const resData = await response.json();
-                return resData.events;
-              }
-            }
+            path: ':eventId',
+            id:'event-detail',
+            loader: eventDetailLoader, 
+            children: [
+              { index: true, element: <EventDetailPage /> },
+              { path: 'edit', element: <EditEventPage /> },
+            ]
           },
-          { path: ':eventId', element: <EventDetailPage /> },
-          { path: 'new', element: <NewEventPage /> },
-          { path: ':eventId/edit', element: <EditEventPage /> },
+          { path: 'new', element: <NewEventPage />, action: newEventAction },
         ]
       },
     ]
   },
-
 ])
 
 function App() {
